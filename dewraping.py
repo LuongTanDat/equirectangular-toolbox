@@ -82,10 +82,10 @@ class NFOV():
         C_idx = np.add(base_y0, x2)
         D_idx = np.add(base_y2, x2)
         flat_img = np.reshape(self.frame, [-1, self.frame_channel])
-        A = np.take(flat_img, A_idx, axis=0)
-        B = np.take(flat_img, B_idx, axis=0)
-        C = np.take(flat_img, C_idx, axis=0)
-        D = np.take(flat_img, D_idx, axis=0)
+        A = np.take(flat_img, A_idx, axis=0, mode="clip")
+        B = np.take(flat_img, B_idx, axis=0, mode="clip")
+        C = np.take(flat_img, C_idx, axis=0, mode="clip")
+        D = np.take(flat_img, D_idx, axis=0, mode="clip")
         wa = np.multiply(x2 - uf, y2 - vf)
         wb = np.multiply(x2 - uf, vf - y0)
         wc = np.multiply(uf - x0, y2 - vf)
@@ -125,15 +125,15 @@ def callback(event, x, y, flags, param):
 
 # test the class
 if __name__ == '__main__':
-    # img = cv2.imread("360.jpg")
-    img = cv2.imread("FAVSA.png")
+    img = cv2.imread("360.jpg")
+    # img = cv2.imread("FAVSA.png")
     cv2.namedWindow("PYTHON", cv2.WINDOW_NORMAL)
     nfov = NFOV()
     nfov.Init(height=400, width=800)
     cv2.setMouseCallback("PYTHON", callback, param=img.shape)
     while True:
         # camera center point (valid range [0,1])
-        fov_img = nfov.toNFOV(img, np.array(cp))
+        fov_img = nfov.toNFOV(img, cp[0], cp[1])
         cv2.imshow("PYTHON", fov_img)
         k = cv2.waitKey(1)
         if k == 27:
