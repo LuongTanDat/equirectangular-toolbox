@@ -108,7 +108,7 @@ class NFOV():
 # test the class
 if __name__ == '__main__':
     import imageio as im
-    img = im.imread('images/360.jpg')
+    img = im.imread('360.jpg')
     nfov = NFOV()
     center_point = np.array([0.5, .5])  # camera center point (valid range [0,1])
     nfov.toNFOV(img, center_point)
